@@ -17,7 +17,7 @@ function App() {
       <div>
         <section>                              
             <Routes>
-              <Route path="/" element={<ProtectedRoute element={<Home/>}/>}/>                                                   
+              <Route path="/" element={<Home/>}/>                                                   
               <Route path="/connect-strava" element={<ConnectStrava />}/>
               <Route path="/strava-auth" element={<StravaAuth />}/>     
             </Routes>                    
