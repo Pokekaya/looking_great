@@ -1,14 +1,47 @@
-// api.js
-import axios from 'axios';
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-export const generateWorkoutPlan = async (config) => {
+const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
+
+let model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: { responseMimeType: "application/json" }
+});
+
+let prompt = `
+Generate a workout plan using this JSON schema:
+{
+  "type": "object",
+  "properties": {
+    "warm_up": { "type": "string" },
+    "main_workout": { "type": "array", "items": { "type": "string" } },
+    "cool_down": { "type": "string" }
+  },
+  "required": ["warm_up", "main_workout", "cool_down"]
+}
+
+Here are some details:
+- Goal: Build muscle
+- Duration: 60 minutes
+- Experience level: Intermediate
+`;
+
+async function generateWorkoutPlan() {
   try {
-    const response = await axios.post('http://localhost:5000/api/generate-workout', {
-      prompt: `Generate a workout plan for ${config.goal} with a duration of ${config.duration} minutes for an ${config.experienceLevel} user.`,
-      model: "gemini-1.5-flash"
-    });
-    return response.data;
-  } catch (err) {
-    throw new Error('Failed to generate workout plan. ' + (err.response?.data?.message || err.message));
+    let result = await model.generateContent(prompt);
+
+    let workoutPlan = JSON.parse(result.response.text());
+    console.log("Generated Workout Plan:", workoutPlan);
+
+    return workoutPlan;
+  } catch (error) {
+    console.error("Error generating workout plan:", error);
+    throw new Error('Failed to generate workout plan. Please try again later.');
   }
-};
+}
+
+generateWorkoutPlan().then(plan => {
+
+  console.log(plan);
+}).catch(error => {
+  console.error("Error:", error);
+});
