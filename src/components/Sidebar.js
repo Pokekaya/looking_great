@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faTachometerAlt,
-  faSignOut,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
+
+import { faDumbbell, faSignOut, faBars } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/menu-log.png";
 
@@ -95,28 +91,15 @@ const Sidebar = () => {
             activeClassName="active"
             exact
           >
-            <FontAwesomeIcon icon={faHome} className="fs-4" />
-            {isExpanded && <span className="ms-2">Dashboard</span>}
+            <FontAwesomeIcon icon={faDumbbell} className="fs-4" />
+            {isExpanded && <span className="ms-2">My Workout</span>}
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="/analytics"
-            className={`nav-link text-white ${
-              isExpanded ? "" : "text-center"
-            } py-3`}
-            activeClassName="active"
-          >
-            <FontAwesomeIcon icon={faTachometerAlt} className="fs-4" />
-            {isExpanded && <span className="ms-2">Analytics</span>}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/signout"
-            className={`nav-link text-white ${
-              isExpanded ? "" : "text-center"
-            } py-3`}
+
+          <NavLink 
+            to="/"
+            className={`nav-link text-white ${isExpanded ? '' : 'text-center'} py-3`} 
             activeClassName="active"
           >
             <FontAwesomeIcon icon={faSignOut} className="fs-4" />
