@@ -1,6 +1,5 @@
-import React, { useEffect, useContext } from 'react';
-import { authContext } from '../context/authContext';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import connectStrava from '../assets/btn_strava_connectwith_orange.png'; 
 
 function redirectToStrava() {
   const clientId = '133480'; 
@@ -16,17 +15,12 @@ function redirectToStrava() {
 }
 
 function ConnectStrava() {
-    const { authToken } = useContext(authContext);
-    const navigate = useNavigate();
-    useEffect(() =>{
-        if(authToken !== null){
-            navigate("/dashboard");
-        }
-    });
 
     return (
         <div>
-        <button onClick={redirectToStrava}>Connect with Strava</button>
+        <a className="btn w-100" onClick={redirectToStrava}>
+            <img src={connectStrava} alt="Connect with STRAVA" style={{ maxWidth: '100%' }} />
+        </a>
         </div>
     );
     }
