@@ -15,6 +15,13 @@ function redirectToStrava() {
 }
 
 function ConnectStrava() {
+    const { authToken } = useContext(authContext);
+    const navigate = useNavigate();
+    useEffect(() =>{
+        if(authToken !== null){
+            navigate("/dashboard");
+        }
+    });
 
     return (
         <div>
