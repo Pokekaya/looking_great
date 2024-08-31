@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { generateWorkoutPlan } from '../api/api';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDumbbell, faFlag, faMagicWandSparkles, faClock
@@ -9,6 +10,8 @@ const PreferenceAndWorkoutPlan = () => {
   const [type, setType] = useState("weight");
   const [equipment, setEquipment] = useState(["dumbbell"]);
   const [workoutPlan, setWorkoutPlan] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleTimeChange = (event) => setTime(event.target.value);
   const handleTypeChange = (event) => setType(event.target.value);
@@ -21,12 +24,29 @@ const PreferenceAndWorkoutPlan = () => {
     );
   };
 
-  const generateWorkoutPlan = () => {
+  const generateWorkoutPlan1 = () => {
     setWorkoutPlan({
       warmUp: "5 min",
       workout: time === "15 min" ? "10 min" : "20 min",
       cooldown: "5 min",
     });
+  };
+  const handleGenerateWorkoutPlan = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const plan = await generateWorkoutPlan({
+        goal: type === "weight" ? "build muscle" : "improve cardio",
+        duration: time === "15 min" ? 15 : 20,
+        experienceLevel: "intermediate" 
+      });
+      setWorkoutPlan(plan);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -113,10 +133,19 @@ const PreferenceAndWorkoutPlan = () => {
           {/* Generate Button */}
           <button
             className="btn btn-primary"
-            onClick={generateWorkoutPlan}
+            //onClick={generateWorkoutPlan}
+            onClick={handleGenerateWorkoutPlan}
             style={{ padding: "10px", width: "50%" }}
-          >
-            <FontAwesomeIcon icon={faMagicWandSparkles} /> Generate
+            >
+            {loading ? (
+              <>
+              <FontAwesomeIcon icon={faMagicWandSparkles} /> Generating...
+              </>
+            ) : (
+              <>
+              <FontAwesomeIcon icon={faMagicWandSparkles} /> Generate
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -125,6 +154,8 @@ const PreferenceAndWorkoutPlan = () => {
         <div className="card border" style={{ height: '20vh', overflow: 'hidden' }}>
           <div className="card-body">
             <h5 className="card-title">My Workout Plan</h5>
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message*/}
+            
             {workoutPlan && (
               <>
                 <p>Warm Up: {workoutPlan.warmUp}</p>
