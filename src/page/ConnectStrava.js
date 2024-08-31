@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
+import { authContext } from '../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 function redirectToStrava() {
   const clientId = '133480'; 
@@ -14,11 +16,19 @@ function redirectToStrava() {
 }
 
 function ConnectStrava() {
-  return (
-    <div>
-      <button onClick={redirectToStrava}>Connect with Strava</button>
-    </div>
-  );
-}
+    const { authToken } = useContext(authContext);
+    const navigate = useNavigate();
+    useEffect(() =>{
+        if(authToken !== null){
+            navigate("/");
+        }
+    });
+
+    return (
+        <div>
+        <button onClick={redirectToStrava}>Connect with Strava</button>
+        </div>
+    );
+    }
 
 export default ConnectStrava;
