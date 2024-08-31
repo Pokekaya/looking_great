@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import login from '../assets/login.png'; 
 import lookingGreatLogo from '../assets/looking_graet_logo_transparent.png'; 
-import connectStrava from '../assets/btn_strava_connectwith_orange.png'; 
+import ConnectStrava from './ConnectStrava';
+import { authContext } from '../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
+  const { authToken } = useContext(authContext);
+  const navigate = useNavigate();
+
+  useEffect(() =>{
+    if(authToken !== null){
+        navigate("/dashboard");
+    }
+});
+
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="row w-100">
@@ -24,9 +35,7 @@ function LoginPage() {
           <div className="card w-100 border-0 login-card">
             <div className="card-body text-center">
               <img src={lookingGreatLogo} alt="Looking Great Logo" style={{ maxWidth: '250px', marginBottom: '20px' }} />
-              <a href="/dashboard" className="btn w-100">
-                <img src={connectStrava} alt="Connect with STRAVA" style={{ maxWidth: '100%' }} />
-              </a>
+              <ConnectStrava></ConnectStrava>
             </div>
           </div>
         </div>
