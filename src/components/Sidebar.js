@@ -1,51 +1,52 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faTachometerAlt, faSignOut, faBars } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
-import logo from '../assets/menu-log.png';
+import {
+  faHome,
+  faTachometerAlt,
+  faSignOut,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768); // Expanded by default on large screens
+  const [isExpanded, setIsExpanded] = useState(true); // State to control sidebar expansion
 
   const toggleSidebar = () => {
-    setIsExpanded(!isExpanded); 
+    setIsExpanded(!isExpanded);
   };
-
-  // Handle automatic collapse on small screens
-  const handleResize = () => {
-    if (window.innerWidth < 768 && isExpanded) {
-      setIsExpanded(false);
-    } else if (window.innerWidth >= 768 && !isExpanded) {
-      setIsExpanded(true);
-    }
-  };
-
-  React.useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [isExpanded]);
 
   return (
-    <div className={`d-flex flex-column flex-shrink-0 p-3 text-white bg-dark`}
+    <div
+      className={`d-flex flex-column flex-shrink-0 p-3 `}
       style={{
         width: isExpanded ? "280px" : "80px",
         transition: "width 0.3s",
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: "#083d77", // Sidebar background color
+        color: "#fcfce1", // Default text color
       }}
-      aria-expanded={isExpanded}
     >
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex justify-content-center align-items-center">
         <a
           href="/"
           className="d-flex align-items-center text-white text-decoration-none"
+          style={{ color: "#fcfce1" }} // Link text color
         >
-          {isExpanded && <img src={logo} alt="Logo" style={{ maxHeight: "50px", maxWidth: "100%" }} />}
+          {isExpanded && (
+            <span className="fs-4" style={{ color: "#fcfce1" }}>
+              Looking Great
+            </span>
+          )}
         </a>
-        <button className="btn btn-dark" onClick={toggleSidebar} aria-label="Toggle Sidebar">
+        <button
+          className="btn "
+          onClick={toggleSidebar}
+          style={{ color: "#fcfce1" }} // Button icon color
+          backgroundColor="#083d77" // Button background color
+        >
           <FontAwesomeIcon icon={faBars} />
         </button>
       </div>
-      <hr />
+      {isExpanded && <hr style={{ borderColor: "#fcfce1" }} />}
       {isExpanded && (
         <div className="text-center mb-4">
           <img
@@ -54,55 +55,69 @@ const Sidebar = () => {
             className="rounded-circle mb-2"
             style={{ width: "100px", height: "100px" }}
           />
-          <h5>John</h5>
-          <p className="small">Los Angeles, CA</p>
-          <p className="small">Client est. 2/23/17</p>
-          <p className="small">Height: 5'8"</p>
+          <h5 style={{ color: "#fcfce1" }}>John</h5>
+          <p className="small" style={{ color: "#fcfce1" }}>
+            Los Angeles, CA
+          </p>
+          <p className="small" style={{ color: "#fcfce1" }}>
+            Client est. 2/23/17
+          </p>
+          <p className="small" style={{ color: "#fcfce1" }}>
+            Height: 5'8"
+          </p>
         </div>
       )}
-      {!isExpanded && (
-        <div className="text-center">
-          <img
-            src="https://github.com/mdo.png"
-            alt="User"
-            className="rounded-circle mb-2"
-            style={{ width: "50px", height: "50px" }}
-          />
-        </div>
-      )}
-      <hr />
+      <hr style={{ borderColor: "#fcfce1" }} />
       <ul className="nav nav-pills flex-column mb-auto text-center">
         <li className="nav-item">
-          <NavLink 
-            to="/" 
-            className={`nav-link ${isExpanded ? '' : 'text-center'} py-3`} 
-            activeClassName="active"
-            exact
+          <a
+            href="#"
+            className={`nav-link ${isExpanded ? "" : "text-center"} py-3`}
+            aria-current="page"
+            style={{
+              color: "#fcfce1", // Default link color
+            }}
+            activeStyle={{
+              backgroundColor: "#ee964b", // Active link background color
+              color: "#fcfce1",
+            }}
           >
             <FontAwesomeIcon icon={faHome} className="fs-4" />
             {isExpanded && <span className="ms-2">Dashboard</span>}
-          </NavLink>
+          </a>
         </li>
         <li>
-          <NavLink 
-            to="/analytics" 
-            className={`nav-link text-white ${isExpanded ? '' : 'text-center'} py-3`} 
-            activeClassName="active"
+          <a
+            href="#"
+            className={`nav-link ${isExpanded ? "" : "text-center"} py-3`}
+            style={{
+              color: "#fcfce1", // Default link color
+            }}
+            activeStyle={{
+              backgroundColor: "#ee964b", // Active link background color
+              color: "#fcfce1",
+            }}
           >
             <FontAwesomeIcon icon={faTachometerAlt} className="fs-4" />
             {isExpanded && <span className="ms-2">Analytics</span>}
-          </NavLink>
+          </a>
         </li>
         <li>
-          <NavLink 
-            to="/signout" 
-            className={`nav-link text-white ${isExpanded ? '' : 'text-center'} py-3`} 
-            activeClassName="active"
+          <a
+            href="#"
+            className={`nav-link ${isExpanded ? "" : "text-center"} py-3`}
+            style={{
+              color: "#fcfce1", // Default link color
+            }}
+            activeStyle={{
+              backgroundColor: "#ee964b", // Active link background color
+              color: "#fcfce1",
+            }}
           >
             <FontAwesomeIcon icon={faSignOut} className="fs-4" />
             {isExpanded && <span className="ms-2">Sign out</span>}
-          </NavLink>
-        </li>        
+          </a>
+        </li>
       </ul>
     </div>
   );

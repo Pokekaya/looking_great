@@ -9,6 +9,9 @@
   color: #fff;
 }
 
+.dropdown-menu {
+  background-color: #343a40;
+}
 
 @media (max-width: 767px) {
   .navbar {
