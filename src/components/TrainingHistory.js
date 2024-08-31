@@ -22,7 +22,7 @@ const TrainingHistory = () => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Important for resizing
+    maintainAspectRatio: false, 
     plugins: {
       legend: {
         display: true,

@@ -30,77 +30,82 @@ const PreferenceAndWorkoutPlan = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="row">
+    <div className="container-fluid mt-4">
+      <div className="row justify-content-center">
         {/* Preferences Section */}
         <div className="card m-0">
           <div className="card-body">
             <h5 className="card-title">Preferences</h5>
-            <div className="d-flex justify-content-between">
-              <div className="d-flex flex-column align-items-center mb-3">
-                <label><FontAwesomeIcon icon={faClock} /> Time</label>
-                <div>
-                  <input
-                    type="radio"
-                    name="time"
-                    value="15 min"
-                    checked={time === "15 min"}
-                    onChange={handleTimeChange}
-                  />{" "}
-                  15 min
-                  <br />
-                  <input
-                    type="radio"
-                    name="time"
-                    value="20 min"
-                    checked={time === "20 min"}
-                    onChange={handleTimeChange}
-                  />{" "}
-                  20 min
+            <hr/>
+            <div className="row">
+              <div className="col-md-4 col-sm-12 mb-3">
+                <div className="d-flex flex-column align-items-center">
+                  <label><FontAwesomeIcon icon={faClock} /> Time</label>
+                  <div>
+                    <input
+                      type="radio"
+                      name="time"
+                      value="15 min"
+                      checked={time === "15 min"}
+                      onChange={handleTimeChange}
+                    />{" "}
+                    15 min
+                    <br />
+                    <input
+                      type="radio"
+                      name="time"
+                      value="20 min"
+                      checked={time === "20 min"}
+                      onChange={handleTimeChange}
+                    />{" "}
+                    20 min
+                  </div>
                 </div>
               </div>
-              <div className="border-start mx-3"></div> {/* Divider */}
-              <div className="d-flex flex-column align-items-center mb-3">
-                <label><FontAwesomeIcon icon={faFlag} /> Type</label>
-                <div>
-                  <input
-                    type="radio"
-                    name="type"
-                    value="weight"
-                    checked={type === "weight"}
-                    onChange={handleTypeChange}
-                  />{" "}
-                  Weight
-                  <br />
-                  <input
-                    type="radio"
-                    name="type"
-                    value="cardio"
-                    checked={type === "cardio"}
-                    onChange={handleTypeChange}
-                  />{" "}
-                  Cardio
+              <div className="col-md-4 col-sm-12 mb-3">
+                <div className="d-flex flex-column align-items-center">
+                  <label><FontAwesomeIcon icon={faFlag} /> Type</label>
+                  <div>
+                    <input
+                      type="radio"
+                      name="type"
+                      value="weight"
+                      checked={type === "weight"}
+                      onChange={handleTypeChange}
+                    />{" "}
+                    Weight
+                    <br />
+                    <input
+                      type="radio"
+                      name="type"
+                      value="cardio"
+                      checked={type === "cardio"}
+                      onChange={handleTypeChange}
+                    />{" "}
+                    Cardio
+                  </div>
                 </div>
               </div>
-              <div className="border-start mx-3"></div> {/* Divider */}
-              <div className="d-flex flex-column align-items-center mb-3">
-                <label><FontAwesomeIcon icon={faDumbbell} /> Equipment</label>
-                <div>
-                  <input
-                    type="checkbox"
-                    value="dumbbell"
-                    checked={equipment.includes("dumbbell")}
-                    onChange={handleEquipmentChange}
-                  />{" "}
-                  Dumbbell
-                  <br />
-                  <input
-                    type="checkbox"
-                    value="resistant band"
-                    checked={equipment.includes("resistant band")}
-                    onChange={handleEquipmentChange}
-                  />{" "}
-                  Resistant Band
+              <div className="col-md-4 col-sm-12 mb-3">
+                <div className="d-flex flex-column align-items-center">
+                  <label><FontAwesomeIcon icon={faDumbbell} /> Equipment</label>
+                  <div>
+                    <input
+                      type="checkbox"
+                      value="dumbbell"
+                      checked={equipment.includes("dumbbell")}
+                      onChange={handleEquipmentChange}
+                    />{" "}
+                    Dumbbell
+                    <br />
+                    <input
+                      type="checkbox"
+                      value="resistant band"
+                      checked={equipment.includes("resistant band")}
+                      onChange={handleEquipmentChange}
+                    />{" "}
+                    Resistant Band
+                  </div>
                 </div>
               </div>
             </div>
@@ -125,6 +130,7 @@ const PreferenceAndWorkoutPlan = () => {
         <div className="card border" style={{ height: '20vh', overflow: 'hidden' }}>
           <div className="card-body">
             <h5 className="card-title">My Workout Plan</h5>
+            <hr/>
             {workoutPlan && (
               <>
                 <p>Warm Up: {workoutPlan.warmUp}</p>
