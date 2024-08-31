@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext  } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { authContext } from '../context/authContext';
 
 function StravaAuth() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [hasExchangedToken, setHasExchangedToken] = useState(false);
-  const { setAuthToken } = useContext(authContext);
+  const { setAuthToken, setAuthData } = useContext(authContext);
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -15,6 +16,7 @@ function StravaAuth() {
       // Exchange the code for an access token
       exchangeToken(code);
       setHasExchangedToken(true);
+      navigate('/');
     }
   },[location, hasExchangedToken]);
 
@@ -36,6 +38,7 @@ function StravaAuth() {
     console.log('Access Token:', data.access_token);
     // Store the access token and make Strava API calls with it
     setAuthToken(data.access_token)
+    setAuthData(data)
   };
 
   return (
