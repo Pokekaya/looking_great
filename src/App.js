@@ -1,32 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import firebase from 'firebase/app';
 import 'firebase/firestore'; 
-import firebaseConfig from './firebaseConfig'; 
+import firebaseApp from './firebaseConfig';
+import { BrowserRouter as Router} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
+import Home from './page/Home'
 
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore(); // Get a reference to the Firestore database
+const db = firebaseApp; // Get a reference to the Firestore database
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+    <div>
+      <section>                              
+          <Routes>                                                       
+              <Route path="/" element={<Home/>}/>
+          </Routes>                    
+      </section>
     </div>
+  </Router>
   );
 }
 
