@@ -16,9 +16,9 @@ function StravaAuth() {
       // Exchange the code for an access token
       exchangeToken(code);
       setHasExchangedToken(true);
-      navigate('/');
+      navigate('/dashboard');
     }
-  },[location, hasExchangedToken]);
+  });
 
   const exchangeToken = async (code) => {
     const response = await fetch('https://www.strava.com/oauth/token', {
