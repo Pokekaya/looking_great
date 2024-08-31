@@ -87,15 +87,6 @@ const Sidebar = () => {
           </a>
         </li>
         <li>
-          {/* <a
-            href="#"
-            className={`nav-link text-white ${
-              isExpanded ? "" : "text-center"
-            } py-3`}
-          >
-            <FontAwesomeIcon icon={faTachometerAlt} className="fs-4" />
-            {isExpanded && <span className="ms-2">Analytics</span>}
-          </a> */}
           <a
             href="#"
             className={`nav-link ${isExpanded ? "" : "text-center"} py-3`}
@@ -112,15 +103,6 @@ const Sidebar = () => {
           </a>
         </li>
         <li>
-          {/* <a
-            href="#"
-            className={`nav-link text-white ${
-              isExpanded ? "" : "text-center"
-            } py-3`}
-          >
-            <FontAwesomeIcon icon={faSignOut} className="fs-4" />
-            {isExpanded && <span className="ms-2">Sign out</span>}
-          </a> */}
           <a
             href="#"
             className={`nav-link ${isExpanded ? "" : "text-center"} py-3`}
