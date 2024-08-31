@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext  } from 'react';
 import { useLocation } from 'react-router-dom';
-import { authContext } from './authContext';
+import { authContext } from '../context/authContext';
 
 function StravaAuth() {
   const location = useLocation();
