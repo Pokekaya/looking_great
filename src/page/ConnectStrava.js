@@ -1,10 +1,10 @@
 import React from 'react';
 
 function redirectToStrava() {
-  const clientId = '133480'; // replace with your actual client id
+  const clientId = '133480'; 
   const redirectUri =
   process.env.NODE_ENV === 'production'
-    ? 'https://lookinggreat-a4f55.web.app/strava-auth' // your production URL
+    ? 'https://lookinggreat-a4f55.web.app/strava-auth' // production URL
     : 'http://localhost:3000/strava-auth'; // development URL
   const scope = 'read,activity:read'; // adjust scopes as needed
   
