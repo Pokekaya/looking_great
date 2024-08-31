@@ -74,7 +74,7 @@ const Sidebar = () => {
       <ul className="nav nav-pills flex-column mb-auto text-center">
         <li className="nav-item">
           <NavLink 
-            to="/" 
+            to="/dashboard" 
             className={`nav-link ${isExpanded ? '' : 'text-center'} py-3`} 
             activeClassName="active"
             exact
