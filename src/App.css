@@ -1,3 +1,20 @@
+.login-image-container {
+  padding: 0px;
+}
+
+.login-image {
+  border-radius: 10px 0 0 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+.login-card {
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* Ensures the form stands out */
+}
+
+
 .nav-link.active {
   background-color: #0d6efd;
   color: #fff;
@@ -11,7 +28,6 @@
 .dropdown-menu {
   background-color: #343a40;
 }
-
 
 @media (max-width: 767px) {
   .navbar {
