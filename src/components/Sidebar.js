@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faTachometerAlt, faSignOut, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faTachometerAlt,
+  faSignOut,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-import logo from '../assets/menu-log.png';
+import logo from "../assets/menu-log.png";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768); // Expanded by default on large screens
 
   const toggleSidebar = () => {
-    setIsExpanded(!isExpanded); 
+    setIsExpanded(!isExpanded);
   };
 
   // Handle automatic collapse on small screens
@@ -26,11 +31,12 @@ const Sidebar = () => {
   }, [isExpanded]);
 
   return (
-    <div className={`d-flex flex-column flex-shrink-0 p-3 text-white bg-dark`}
+    <div
+      className={`d-flex flex-column flex-shrink-0 p-3 text-white bg-dark`}
       style={{
         width: isExpanded ? "280px" : "80px",
         transition: "width 0.3s",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
       aria-expanded={isExpanded}
     >
@@ -39,9 +45,19 @@ const Sidebar = () => {
           href="/dashboard"
           className="d-flex align-items-center text-white text-decoration-none"
         >
-          {isExpanded && <img src={logo} alt="Logo" style={{ maxHeight: "50px", maxWidth: "100%" }} />}
+          {isExpanded && (
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ maxHeight: "50px", maxWidth: "100%" }}
+            />
+          )}
         </a>
-        <button className="btn btn-dark" onClick={toggleSidebar} aria-label="Toggle Sidebar">
+        <button
+          className="btn btn-dark"
+          onClick={toggleSidebar}
+          aria-label="Toggle Sidebar"
+        >
           <FontAwesomeIcon icon={faBars} />
         </button>
       </div>
@@ -73,9 +89,9 @@ const Sidebar = () => {
       <hr />
       <ul className="nav nav-pills flex-column mb-auto text-center">
         <li className="nav-item">
-          <NavLink 
-            to="/dashboard" 
-            className={`nav-link ${isExpanded ? '' : 'text-center'} py-3`} 
+          <NavLink
+            to="/dashboard"
+            className={`nav-link ${isExpanded ? "" : "text-center"} py-3`}
             activeClassName="active"
             exact
           >
@@ -84,9 +100,11 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink 
-            to="/analytics" 
-            className={`nav-link text-white ${isExpanded ? '' : 'text-center'} py-3`} 
+          <NavLink
+            to="/analytics"
+            className={`nav-link text-white ${
+              isExpanded ? "" : "text-center"
+            } py-3`}
             activeClassName="active"
           >
             <FontAwesomeIcon icon={faTachometerAlt} className="fs-4" />
@@ -94,15 +112,17 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink 
-            to="/signout" 
-            className={`nav-link text-white ${isExpanded ? '' : 'text-center'} py-3`} 
+          <NavLink
+            to="/signout"
+            className={`nav-link text-white ${
+              isExpanded ? "" : "text-center"
+            } py-3`}
             activeClassName="active"
           >
             <FontAwesomeIcon icon={faSignOut} className="fs-4" />
             {isExpanded && <span className="ms-2">Sign out</span>}
           </NavLink>
-        </li>        
+        </li>
       </ul>
     </div>
   );
