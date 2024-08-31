@@ -33,7 +33,7 @@ const PreferenceAndWorkoutPlan = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container-fluid mt-4">
       <div className="row">
         {/* Preferences Section */}
         <div className="card m-0">

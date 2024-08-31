@@ -74,7 +74,7 @@ const TrainingHistory = () => {
   return (
     <div className="card" style={{ height: "40vh" }}>
       <div className="card-body">
-        <h5 className="card-title">Training History</h5>
+        <h5 className="card-title">My Workout History</h5>
         <div
           style={{
             position: "relative",
