@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDumbbell,
@@ -6,12 +6,17 @@ import {
   faMagicWandSparkles,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import { authContext } from '../context/authContext'; 
 
 const PreferenceAndWorkoutPlan = () => {
+  const { authToken } = useContext(authContext);
   const [time, setTime] = useState("15 min");
   const [type, setType] = useState("weight");
   const [equipment, setEquipment] = useState(["dumbbell"]);
   const [workoutPlan, setWorkoutPlan] = useState(null);
+  const [combinedData, setCombinedData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleTimeChange = (event) => setTime(event.target.value);
   const handleTypeChange = (event) => setType(event.target.value);
@@ -24,12 +29,78 @@ const PreferenceAndWorkoutPlan = () => {
     );
   };
 
-  const generateWorkoutPlan = () => {
-    setWorkoutPlan({
-      warmUp: "5 min",
-      workout: time === "15 min" ? "10 min" : "20 min",
-      cooldown: "5 min",
-    });
+  const fetchActivities = async () => {
+    const endDate = Math.floor(Date.now() / 1000); // Current time in seconds since epoch
+    const startDate = endDate - 7 * 24 * 60 * 60; // 7 days ago
+
+    try {
+      const response = await fetch(
+        `https://www.strava.com/api/v3/athlete/activities?after=${startDate}&before=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch activities from Strava.");
+      }
+
+      const data = await response.json();
+
+      // Filter activities to include only relevant fields
+      const filteredActivities = data.map((activity) => ({
+        type: activity.type,
+        sport_type: activity.sport_type,
+        workout_type: activity.workout_type,
+        moving_time: activity.moving_time,
+        distance: activity.distance,
+        total_elevation_gain: activity.total_elevation_gain,
+        average_speed: activity.average_speed,
+        average_watts: activity.average_watts,
+        kilojoules: activity.kilojoules,
+        average_heartrate: activity.average_heartrate,
+        max_heartrate: activity.max_heartrate,
+        suffer_score: activity.suffer_score,
+      }));
+
+      return filteredActivities;
+    } catch (error) {
+      console.error("Error fetching Strava activities:", error);
+      throw new Error("Could not retrieve activities from Strava.");
+    }
+  };
+
+  const generateWorkoutPlan = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      if (!authToken) {
+        throw new Error("Authentication token is missing.");
+      }
+
+      const fetchedActivities = await fetchActivities();
+
+      // Combine preferences with fetched activities
+      const combinedData = {
+        preferences: {
+          time,
+          type,
+          equipment,
+        },
+        activities: fetchedActivities,
+      };
+
+      setCombinedData(combinedData);
+
+    } catch (err) {
+      console.error("Error generating combined data:", err);
+      setError(err.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -160,6 +231,20 @@ const PreferenceAndWorkoutPlan = () => {
           </div>
         </div>
       </div>
+
+      <div className="row mt-4">
+        <div className="card border" style={{ height: '20vh', overflow: 'auto' }}>
+          <div className="card-body">
+            <h5 className="card-title">Fetched Activities</h5>
+            {combinedData ? (
+              <pre>{JSON.stringify(combinedData, null, 2)}</pre>
+            ) : (
+              <p>No activities found yet.</p>
+            )}
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };

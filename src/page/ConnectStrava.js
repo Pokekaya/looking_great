@@ -20,7 +20,7 @@ function ConnectStrava() {
     const navigate = useNavigate();
     useEffect(() =>{
         if(authToken !== null){
-            navigate("/");
+            navigate("/dashboard");
         }
     });
 

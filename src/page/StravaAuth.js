@@ -16,7 +16,7 @@ function StravaAuth() {
       // Exchange the code for an access token
       exchangeToken(code);
       setHasExchangedToken(true);
-      navigate('/');
+      navigate('/dashboard');
     }
   },[location, hasExchangedToken]);
 
