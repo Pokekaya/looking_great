@@ -1,5 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore'; 
+import firebaseConfig from './firebaseConfig'; 
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore(); // Get a reference to the Firestore database
 
 function App() {
   return (
