@@ -5,6 +5,8 @@ import {
   faFlag,
   faMagicWandSparkles,
   faClock,
+  faPersonWalking,
+  faIceCream,
 } from "@fortawesome/free-solid-svg-icons";
 
 const PreferenceAndWorkoutPlan = () => {
@@ -26,9 +28,21 @@ const PreferenceAndWorkoutPlan = () => {
 
   const generateWorkoutPlan = () => {
     setWorkoutPlan({
-      warmUp: "5 min",
-      workout: time === "15 min" ? "10 min" : "20 min",
-      cooldown: "5 min",
+      warmUp: {
+        duration: "5 min",
+        description: "Light cardio with lunges and arm circles",
+      },
+      workout: {
+        duration: time === "15 min" ? "10 min" : "20 min",
+        description:
+          type === "weight"
+            ? "Full-body weight training using dumbbells"
+            : "High-intensity interval cardio",
+      },
+      cooldown: {
+        duration: "5 min",
+        description: "Stretching and breathing exercises",
+      },
     });
   };
 
@@ -146,15 +160,36 @@ const PreferenceAndWorkoutPlan = () => {
       <div className="row mt-4">
         <div
           className="card border"
-          style={{ height: "20vh", overflow: "hidden" }}
+          style={{ height: "30vh", overflow: "auto" }}
         >
           <div className="card-body">
             <h5 className="card-title">My Workout Plan</h5>
             {workoutPlan && (
               <>
-                <p>Warm Up: {workoutPlan.warmUp}</p>
-                <p>Workout: {workoutPlan.workout}</p>
-                <p>Cooldown: {workoutPlan.cooldown}</p>
+                <div className="mb-3">
+                  <h6>
+                    <FontAwesomeIcon icon={faPersonWalking} />
+                    Warm Up
+                  </h6>
+                  <p>Duration: {workoutPlan.warmUp.duration}</p>
+                  <p>{workoutPlan.warmUp.description}</p>
+                </div>
+                <div className="mb-3">
+                  <h6>
+                    <FontAwesomeIcon icon={faDumbbell} />
+                    Workout
+                  </h6>
+                  <p>Duration: {workoutPlan.workout.duration}</p>
+                  <p>{workoutPlan.workout.description}</p>
+                </div>
+                <div>
+                  <h6>
+                    <FontAwesomeIcon icon={faIceCream} />
+                    Cooldown
+                  </h6>
+                  <p>Duration: {workoutPlan.cooldown.duration}</p>
+                  <p>{workoutPlan.cooldown.description}</p>
+                </div>
               </>
             )}
           </div>
