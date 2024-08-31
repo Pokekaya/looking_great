@@ -14,7 +14,7 @@ const PreferenceAndWorkoutPlan = () => {
   const [type, setType] = useState("weight");
   const [equipment, setEquipment] = useState(["dumbbell"]);
   const [workoutPlan, setWorkoutPlan] = useState(null);
-  const [activities, setActivities] = useState([]);
+  const [combinedData, setCombinedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -27,28 +27,6 @@ const PreferenceAndWorkoutPlan = () => {
         ? prev.filter((item) => item !== value)
         : [...prev, value]
     );
-  };
-
-  const generateWorkoutPlan = async () => {
-    setLoading(true);
-    setError(null);
-    setWorkoutPlan(null);
-
-    try {
-      if (!authToken) {
-        throw new Error("Authentication token is missing.");
-      }
-
-      const fetchedActivities = await fetchActivities();
-      const aiGeneratedPlan = await sendToAI(fetchedActivities);
-
-      setWorkoutPlan(aiGeneratedPlan);
-    } catch (err) {
-      console.error("Error generating workout plan:", err);
-      setError(err.message || "An unexpected error occurred.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   const fetchActivities = async () => {
@@ -73,6 +51,9 @@ const PreferenceAndWorkoutPlan = () => {
 
       // Filter activities to include only relevant fields
       const filteredActivities = data.map((activity) => ({
+        type: activity.type,
+        sport_type: activity.sport_type,
+        workout_type: activity.workout_type,
         moving_time: activity.moving_time,
         distance: activity.distance,
         total_elevation_gain: activity.total_elevation_gain,
@@ -84,7 +65,6 @@ const PreferenceAndWorkoutPlan = () => {
         suffer_score: activity.suffer_score,
       }));
 
-      setActivities(filteredActivities);
       return filteredActivities;
     } catch (error) {
       console.error("Error fetching Strava activities:", error);
@@ -92,32 +72,34 @@ const PreferenceAndWorkoutPlan = () => {
     }
   };
 
-  const sendToAI = async (activitiesData) => {
-    try {
-      const response = await fetch("https://your-ai-api.com/generate-workout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          preferences: {
-            time,
-            type,
-            equipment,
-          },
-          activities: activitiesData,
-        }),
-      });
+  const generateWorkoutPlan = async () => {
+    setLoading(true);
+    setError(null);
 
-      if (!response.ok) {
-        throw new Error("AI service failed to generate workout plan.");
+    try {
+      if (!authToken) {
+        throw new Error("Authentication token is missing.");
       }
 
-      const plan = await response.json();
-      return plan;
-    } catch (error) {
-      console.error("Error communicating with AI service:", error);
-      throw new Error("Failed to generate workout plan using AI service.");
+      const fetchedActivities = await fetchActivities();
+
+      // Combine preferences with fetched activities
+      const combinedData = {
+        preferences: {
+          time,
+          type,
+          equipment,
+        },
+        activities: fetchedActivities,
+      };
+
+      setCombinedData(combinedData);
+
+    } catch (err) {
+      console.error("Error generating combined data:", err);
+      setError(err.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -254,8 +236,8 @@ const PreferenceAndWorkoutPlan = () => {
         <div className="card border" style={{ height: '20vh', overflow: 'auto' }}>
           <div className="card-body">
             <h5 className="card-title">Fetched Activities</h5>
-            {activities.length > 0 ? (
-              <pre>{JSON.stringify(activities, null, 2)}</pre>
+            {combinedData ? (
+              <pre>{JSON.stringify(combinedData, null, 2)}</pre>
             ) : (
               <p>No activities found yet.</p>
             )}
