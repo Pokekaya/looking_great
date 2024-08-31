@@ -17,6 +17,8 @@ const PreferenceAndWorkoutPlan = () => {
   const [combinedData, setCombinedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { GoogleGenerativeAI } = require("@google/generative-ai");
+  const genAI = new GoogleGenerativeAI("AIzaSyBFHlOsrTZhx2UuIt-E5Mr_nIDqasxy4LA");  
 
   const handleTimeChange = (event) => setTime(event.target.value);
   const handleTypeChange = (event) => setType(event.target.value);
@@ -94,6 +96,24 @@ const PreferenceAndWorkoutPlan = () => {
       };
 
       setCombinedData(combinedData);
+
+      // Using `responseMimeType` requires either a Gemini 1.5 Pro or 1.5 Flash model
+      let model = genAI.getGenerativeModel({
+        // Using `responseMimeType` requires either a Gemini 1.5 Pro or 1.5 Flash model
+        model: "gemini-1.5-flash",
+        // Set the `responseMimeType` to output JSON
+        generationConfig: { responseMimeType: "application/json" }
+      });
+
+      let prompt = `
+      the following JSON data contains the preference of the workout plan and the activities of the 
+      past 7 days, suggest a workout plan based on the preference and the past activities of today, consider the 
+      intensity. The workout plan must include a warm-up for 5 minutes, workout for the preferred time, and cooldown for 5 minutes.:
+      ${JSON.stringify(combinedData, null, 2)}
+    `;
+
+      let result = await model.generateContent(prompt)
+      setWorkoutPlan(result);
 
     } catch (err) {
       console.error("Error generating combined data:", err);
@@ -220,14 +240,12 @@ const PreferenceAndWorkoutPlan = () => {
           style={{ height: "20vh", overflow: "hidden" }}
         >
           <div className="card-body">
-            <h5 className="card-title">My Workout Plan</h5>
-            {workoutPlan && (
-              <>
-                <p>Warm Up: {workoutPlan.warmUp}</p>
-                <p>Workout: {workoutPlan.workout}</p>
-                <p>Cooldown: {workoutPlan.cooldown}</p>
-              </>
-            )}
+          <h5 className="card-title">My Workout Plan</h5>
+      {workoutPlan ? (
+        <pre>{JSON.stringify(workoutPlan, null, 2)}</pre>
+      ) : (
+        <p>No workout plan generated yet.</p>
+      )}
           </div>
         </div>
       </div>
