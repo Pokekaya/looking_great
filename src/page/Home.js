@@ -12,21 +12,22 @@ function Home() {
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row mb-4">
-            <div className="col-md-8">
+            <div className="col-lg-8 col-md-7 mb-4 mb-md-0">
               <TrainingHistory />
             </div>
-            <div className="col-md-4">
+            <div className="col-lg-4 col-md-5">
               <MyGoal />
             </div>
           </div>
           <div className="mt-4">
-          <PreferenceAndWorkoutPlan />
+            <PreferenceAndWorkoutPlan />
           </div>
         </div>
       </div>
     </div>
   );
 }
+
 export default Home;

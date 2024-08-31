@@ -1,3 +1,4 @@
+
 .nav-link.active {
   background-color: #0d6efd;
   color: #fff;
@@ -6,10 +7,6 @@
 .nav-link:hover {
   background-color: #343a40;
   color: #fff;
-}
-
-.dropdown-menu {
-  background-color: #343a40;
 }
 
 
