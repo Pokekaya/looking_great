@@ -51,10 +51,10 @@ const Sidebar = () => {
       {isExpanded && (
         <div className="text-center mb-4">
           <img
-            src={authData === null || authData === undefined ? "" : authData.athlete.profile_medium}
+            src={authData?.athlete?.profile_medium || "person.png"}
             alt="User"
             className="rounded-circle mb-2"
-            style={{ width: "100px", height: "100px" }}
+            style={{ width: "80px", height: "80px" }}
           />
           <h5>{ authData === null || authData === undefined ? "" : authData.athlete.firstname + " " + authData.athlete.lastname}</h5>
           <p className="small">{ authData === null || authData === undefined? "" : authData.athlete.city }</p>
@@ -64,10 +64,10 @@ const Sidebar = () => {
       {!isExpanded && (
         <div className="text-center">
           <img
-            src="https://github.com/mdo.png"
+            src={authData?.athlete?.profile_medium || "person.png"}
             alt="User"
             className="rounded-circle mb-2"
-            style={{ width: "50px", height: "50px" }}
+            style={{ width: "40px", height: "40px" }}
           />
         </div>
       )}
