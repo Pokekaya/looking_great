@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell, faSignOut, faBars } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import logo from '../assets/menu-log.png';
+import { authContext } from '../context/authContext';
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(window.innerWidth >= 768); // Expanded by default on large screens
+  const { authData } = useContext(authContext);
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded); 
@@ -49,15 +51,14 @@ const Sidebar = () => {
       {isExpanded && (
         <div className="text-center mb-4">
           <img
-            src="https://github.com/mdo.png"
+            src={authData === null || authData === undefined ? "" : authData.athlete.profile_medium}
             alt="User"
             className="rounded-circle mb-2"
             style={{ width: "100px", height: "100px" }}
           />
-          <h5>John</h5>
-          <p className="small">Los Angeles, CA</p>
-          <p className="small">Client est. 2/23/17</p>
-          <p className="small">Height: 5'8"</p>
+          <h5>{ authData === null || authData === undefined ? "" : authData.athlete.firstname + " " + authData.athlete.lastname}</h5>
+          <p className="small">{ authData === null || authData === undefined? "" : authData.athlete.city }</p>
+          <p className="small">{ authData === null || authData === undefined? "" : authData.athlete.weight } Kg</p>
         </div>
       )}
       {!isExpanded && (

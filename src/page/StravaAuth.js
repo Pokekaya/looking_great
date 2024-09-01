@@ -18,7 +18,7 @@ function StravaAuth() {
       setHasExchangedToken(true);
       navigate('/dashboard');
     }
-  });
+  }, [location, hasExchangedToken]);
 
   const exchangeToken = async (code) => {
     const response = await fetch('https://www.strava.com/oauth/token', {
@@ -35,10 +35,12 @@ function StravaAuth() {
     });
 
     const data = await response.json();
-    console.log('Access Token:', data.access_token);
+
     // Store the access token and make Strava API calls with it
-    setAuthToken(data.access_token)
-    setAuthData(data)
+    if(response.status !== 400){
+      setAuthToken(data.access_token)
+      setAuthData(data)
+    }
   };
 
   return (
