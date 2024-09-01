@@ -106,14 +106,22 @@ const PreferenceAndWorkoutPlan = () => {
       });
 
       let prompt = `
-      the following JSON data contains the preference of the workout plan and the activities of the 
-      past 7 days, suggest a workout plan based on the preference and the past activities of today, consider the 
-      intensity. The workout plan must include a warm-up for 5 minutes, workout for the preferred time, and cooldown for 5 minutes.:
-      ${JSON.stringify(combinedData, null, 2)}
-    `;
+ The following JSON data, stored in the variable 'combinedData', includes workout preferences and the activities from the past 7 days. Based on this information, please generate a detailed workout plan tailored for today, considering the intensity of the past activities. The workout plan should be returned as a JSON object with the following keys:
+
+  - "warmUp": A 5-minute warm-up session with specific exercises and instructions.
+  - "workout": A workout session for the preferred duration with detailed exercises, including sets, reps, and any necessary equipment.
+  - "coolDown": A 5-minute cooldown session with specific stretching or relaxation exercises.
+
+Please ensure the response is formatted as a JSON object with the specified keys.
+Here is the JSON data:
+${JSON.stringify(combinedData, null, 2)}
+`;
 
       let result = await model.generateContent(prompt)
-      setWorkoutPlan(result);
+      const responseText = result.response.candidates[0].content.parts[0].text;
+      const workoutPlan = JSON.parse(responseText);
+
+      setWorkoutPlan(workoutPlan);
 
     } catch (err) {
       console.error("Error generating combined data:", err);
@@ -235,20 +243,42 @@ const PreferenceAndWorkoutPlan = () => {
       </div>
 
       <div className="row mt-4">
-        <div
-          className="card border"
-          style={{ height: "20vh", overflow: "hidden" }}
-        >
-          <div className="card-body">
-          <h5 className="card-title">My Workout Plan</h5>
+  <div className="card border" style={{ height: "auto", overflow: "auto" }}>
+    <div className="card-body">
+      <h5 className="card-title">My Workout Plan</h5>
       {workoutPlan ? (
-        <pre>{JSON.stringify(workoutPlan, null, 2)}</pre>
+        <div>
+          <h6>Warm Up</h6>
+          <p>Duration: {workoutPlan.warmUp.duration}</p>
+          <ul>
+            {workoutPlan.warmUp.exercises.map((exercise, index) => (
+              <li key={index}>{exercise}</li>
+            ))}
+          </ul>
+          
+          <h6>Workout</h6>
+          <p>Duration: {workoutPlan.workout.duration}</p>
+          <ul>
+            {workoutPlan.workout.exercises.map((exercise, index) => (
+              <li key={index}>{exercise}</li>
+            ))}
+          </ul>
+
+          <h6>Cool Down</h6>
+          <p>Duration: {workoutPlan.coolDown.duration}</p>
+          <ul>
+            {workoutPlan.coolDown.exercises.map((exercise, index) => (
+              <li key={index}>{exercise}</li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <p>No workout plan generated yet.</p>
       )}
-          </div>
-        </div>
-      </div>
+    </div>
+  </div>
+</div>
+
 
       <div className="row mt-4">
         <div className="card border" style={{ height: '20vh', overflow: 'auto' }}>
