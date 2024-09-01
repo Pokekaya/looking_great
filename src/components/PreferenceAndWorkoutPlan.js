@@ -280,18 +280,7 @@ ${JSON.stringify(combinedData, null, 2)}
 </div>
 
 
-      <div className="row mt-4">
-        <div className="card border" style={{ height: '20vh', overflow: 'auto' }}>
-          <div className="card-body">
-            <h5 className="card-title">Fetched Activities</h5>
-            {combinedData ? (
-              <pre>{JSON.stringify(combinedData, null, 2)}</pre>
-            ) : (
-              <p>No activities found yet.</p>
-            )}
-          </div>
-        </div>
-      </div>
+      
 
     </div>
   );
