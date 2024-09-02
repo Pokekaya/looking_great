@@ -18,7 +18,7 @@ const PreferenceAndWorkoutPlan = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { GoogleGenerativeAI } = require("@google/generative-ai");
-  const genAI = new GoogleGenerativeAI("AIzaSyBFHlOsrTZhx2UuIt-E5Mr_nIDqasxy4LA");  
+  const genAI = new GoogleGenerativeAI("your api key");  
 
   const handleTimeChange = (event) => setTime(event.target.value);
   const handleTypeChange = (event) => setType(event.target.value);
